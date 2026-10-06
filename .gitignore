@@ -1,5 +1,7 @@
 *.class
+build/
 target/
 application.yml
 *.iml
 .idea/
+.gradle/
