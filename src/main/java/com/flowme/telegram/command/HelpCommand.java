@@ -2,8 +2,8 @@ package com.flowme.telegram.command;
 
 import com.flowme.telegram.model.BotReply;
 import com.flowme.telegram.model.IncomingMessage;
-import java.util.List;
 import java.util.stream.Collectors;
+import java.util.List;
 
 public class HelpCommand extends AbstractCommand {
 
@@ -16,6 +16,20 @@ public class HelpCommand extends AbstractCommand {
 
     @Override
     protected BotReply execute(IncomingMessage message) {
+        String args = message.args().trim().toLowerCase().replace("/", "");
+        if (!args.isEmpty()) {
+            for (int i = 0; i < handlers.size(); i++) {
+                if (handlers.get(i).name().equals("/" + args)) {
+                    return BotReply.text(handlers.get(i).name() + " — " + handlers.get(i).description());
+                }
+            }
+            return BotReply.text("Такой команды нет");
+        }
+        if (args.isEmpty()) {
+            System.err.println("Ошибка: не найден файл about.txt");
+            return BotReply.text("Ошибка: укажите название трека, например /track Get Lucky");
+
+        }
         String text = handlers.stream()
                 .map(h -> h.name() + " — " + h.description())
                 .sorted()
