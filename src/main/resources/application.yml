@@ -1,6 +1,1 @@
-bot:
-  token: ""
-spring:
-  main:
-    web-application-type: none
 
